@@ -1,4 +1,4 @@
-#Alignment Evaluator
+# Alignment Evaluator
 
 A place to evaluate and place anything/anyone based loosely on the D&D Alignment framework. Useful for tough judgment calls. 
 
