@@ -1,9 +1,10 @@
 .grid {
 
     position: relative;
-    width: 800px;
-    height: 800px;
+    width: 400px;
+    height: 400px;
     border: 2px solid black;
+    margin: 5px;
 
     /* Creates the 3x3 grid layout */
     display: grid;
@@ -24,5 +25,7 @@
     width: 10px;
     height: 10px;
     border-radius: 5px;
+    border-style: none;
     background-color: red;
+    transform: translate(-50%, -50%);
 }

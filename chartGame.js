@@ -13,7 +13,7 @@ window.addEventListener(`DOMContentLoaded`, () => {
     xSlider.addEventListener("input", () => {
         let currentScore = xSlider.value;
         let xScore = currentScore;
-        let xPercentage = (xScore / 10) * 100;
+        let xPercentage = (xScore / 10) * 98 + 1;
         playerDot.style.left = `${xPercentage}%`;
     });
 
@@ -21,7 +21,7 @@ window.addEventListener(`DOMContentLoaded`, () => {
     ySlider.addEventListener("input", () => {
         let currentScore = ySlider.value;
         let yScore = currentScore;
-        let yPercentage = (yScore / 10) * 100;
+        let yPercentage = (yScore / 10) * 98 + 1;
         playerDot.style.top = `${yPercentage}%`;
     });
 
