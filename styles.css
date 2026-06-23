@@ -1,0 +1,29 @@
+.grid {
+
+    position: relative;
+    width: 800px;
+    height: 800px;
+    border: 2px solid black;
+
+    /* Creates the 3x3 grid layout */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+}
+
+/* The > symbol makes the code target only the boxes, not the dot. */
+.grid > div {
+
+        border: 1px solid black;
+    }
+
+.dot {
+
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: red;
+}
