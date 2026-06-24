@@ -1,94 +1,71 @@
 window.addEventListener(`DOMContentLoaded`, () => {
+  // Radio toggle inputs
+  const radioA = document.getElementById("personality");
+  const radioB = document.getElementById("action");
 
-    // Radio toggle inputs 
-    const optionA = document.getElementById("personality");
-    const optionB = document.getElementById("action");
+  // Elements
+  const playerDot = document.querySelector(`.dot`);
+  const containerA = document.querySelector(".optionA");
+  const containerB = document.querySelector(".optionB");
+  const submitBtn = document.getElementById("submit-quiz-btn"); // Grab the button
+
+  // Toggle Functionality
+  function toggle() {
+    const selectedOption = document.querySelector(`input[name="eitherOrGroup"]:checked`).value;
     
-    // Slider listeners
-    const xSlider1 = document.querySelector(`.x-slider-1`);
-    const xSlider2 = document.querySelector(`.x-slider-2`);
-    const ySlider1 = document.querySelector(`.y-slider-1`);
-    const ySlider2 = document.querySelector(`.y-slider-2`);
-    
-    // Defines initial variable containers
-    let idScore = 0;
-    let superegoScore = 0;
-    let benefitScore = 0;
-    let harmScore = 0;
-
-    // Grabs elements AFTER page loads
-    const playerDot = document.querySelector(`.dot`);
-    const xSlider = document.querySelector(`.x-slider`);
-    const ySlider = document.querySelector(`.y-slider`);
-
-    // Target the Question Wrapper Divs instead of the radio buttons
-    const containerA = document.querySelector(".optionA");
-    const containerB = document.querySelector(".optionB");
-
-    // Get current value of radio button
-    function toggle() {
-
-        const selectedOption = document.querySelector(`input[name="eitherOrGroup"]:checked`).value;
-
-        if (selectedOption === "A") {
-            containerA.style.display = "block";
-            containerB.style.display = "none";
-        } else if (selectedOption === "B") {
-            containerA.style.display = "none";
-            containerB.style.display = "block";
-        }
-
+    if (selectedOption === "A") {
+      containerA.style.display = "block";
+      containerB.style.display = "none";
+    } else if (selectedOption === "B") {
+      containerA.style.display = "none";
+      containerB.style.display = "block";
     }
-
-    // Event listeners so when the value changes, the behavior changes
-    optionA.addEventListener("change", toggle);
-    optionB.addEventListener("change", toggle);
-
-    // Run once on load to ensure correct initial state
-    toggle();
     
+    // Hide the dot again if they switch quiz modes so they have to re-submit
+    playerDot.style.display = "none";
+  }
 
-    // Convert default scores into padded percentages for dot starting point
-    let totalXPoints = idScore + superegoScore;
-    let totalYPoints = harmScore + benefitScore;
+  radioA.addEventListener("change", toggle);
+  radioB.addEventListener("change", toggle);
 
-    let xScore = totalXPoints === 0 ? 5 : (idScore / totalXPoints) * 10; // MISSING 'let'
-    let yScore = totalYPoints === 0 ? 5 : (benefitScore / totalYPoints) * 10; // MISSING 'let'
+  // Core Math Logic Function
+  const updateChart = () => {
+    // 1. Find out which section is currently active
+    const selectedOption = document.querySelector(`input[name="eitherOrGroup"]:checked`).value;
+    let activeContainer = selectedOption === "A" ? containerA : containerB;
 
-    let initialXPercentage = (idScore / 20) * 98 + 1;
-    let initialYPercentage = (benefitScore / 20) * 98 +1;
+    // 2. Dynamically grab ONLY the sliders inside the active container
+    const xSliders = activeContainer.querySelectorAll(`input[class*="x-slider"]`);
+    const ySliders = activeContainer.querySelectorAll(`input[class*="y-slider"]`);
 
-    playerDot.style.left = `${initialXPercentage}%`;
-    playerDot.style.top = `${initialYPercentage}%`;
+    // 3. Calculate X-Axis (Law vs Chaos)
+    let totalXScore = 0;
+    xSliders.forEach(slider => {
+      totalXScore += Number(slider.value);
+    });
+    let maxXPoints = xSliders.length * 10; 
+    let xPercentage = maxXPoints === 0 ? 50 : (totalXScore / maxXPoints) * 98 + 1;
 
-    const updateChart = () => {
+    // 4. Calculate Y-Axis (Good vs Evil)
+    let totalYScore = 0;
+    ySliders.forEach(slider => {
+      totalYScore += Number(slider.value);
+    });
+    let maxYPoints = ySliders.length * 10;
+    let yPercentage = maxYPoints === 0 ? 50 : (totalYScore / maxYPoints) * 98 + 1;
 
-        // Creates an array of current X slider values
-        const xValues = [Number(xSlider1.value), Number(xSlider2.value)];
-        let idScore = 0; 
-        for (let i = 0; i < xValues.length; i++) { 
-            idScore += xValues[i];
-        }
-        let maxXPoints = xValues.length * 10;
-        let xPercentage = (idScore / maxXPoints) * 98 + 1;
+    // 5. Move the dot to its final calculated coordinates
+    playerDot.style.left = `${xPercentage}%`;
+    playerDot.style.top = `${yPercentage}%`;
 
-    
-        // Creates an array of current Y slider values
-        const yValues = [Number(ySlider1.value), Number(ySlider2.value)];
-        let benefitScore = 0; 
-        for (let i = 0; i < yValues.length; i++) { 
-            benefitScore += yValues[i];
-        }
-        let maxXYoints = yValues.length * 10;
-        let yPercentage = (benefitScore / maxXYoints) *98 + 1;
+    // 6. REVEAL THE DOT! 
+    playerDot.style.display = "block";
+  };
 
-        playerDot.style.left = `${xPercentage}%`;
-        playerDot.style.top = `${yPercentage}%`;
-    };
+  // Listen for the button click to run the math and show the dot
+  submitBtn.addEventListener("click", updateChart);
 
-    xSlider1.addEventListener("input", updateChart);
-    xSlider2.addEventListener("input", updateChart);
-    ySlider1.addEventListener("input", updateChart);
-    ySlider2.addEventListener("input", updateChart);
-
+  // Run initial setup on page load
+  toggle();
 });
+
