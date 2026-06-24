@@ -31,17 +31,6 @@ window.addEventListener(`DOMContentLoaded`, () => {
             window.addEventListener('mouseup', removeActiveDrag);
         });
 
-        // 3. Mirror gestures for mobile layouts
-        box.addEventListener('touchstart', () => {
-            box.classList.add('active-interaction');
-            
-            const removeActiveTouch = () => {
-                box.classList.remove('active-interaction');
-                window.removeEventListener('touchend', removeActiveTouch);
-            };
-            window.addEventListener('touchend', removeActiveTouch);
-        }, { passive: true });
-
         function handleInputScaling(e) {
             // Find the bounding box dimensions of the interactive slider bar
             const rect = slider.getBoundingClientRect();
