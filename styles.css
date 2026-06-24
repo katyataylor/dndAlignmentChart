@@ -29,19 +29,39 @@ h1 {
     margin: 20px 0;
 }
 
+/* Base styling for the question boxes */
 .question-box {
     max-width: 500px;
-    margin: 20px auto;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    margin: 24px auto;
+    padding: 20px;
+    background: transparent; /* Makes container transparent */
+    border: 2px solid black;  /* Sharp black border */
+    border-radius: 0;         /* No border radius */
+    
+    /* Smooth transition for the pop-up animation */
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    transform: translateY(0);
 }
 
-.question-box input[type="range"] {
-    width: 80%;
-    margin: 10px 0;
+/* Interacting state: Triggers when the active class is applied via JS */
+.question-box.active-interaction {
+    transform: translateY(-4px); /* Lifts the box up slightly */
+    
+    /* Adds a light shadow behind the solid black box border */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+    
+    /* CRITICAL: Applies a cohesive shadow behind the text nodes and slider thumb inside the container */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1)); 
 }
+
+/* Clean up slider look to fit the sharp black aesthetic */
+.question-box input[type="range"] {
+    width: 85%;
+    margin: 12px 0;
+    cursor: pointer;
+    accent-color: black; /* Makes the slider thumb black to match the theme */
+}
+
 
 .label {
     display: block;

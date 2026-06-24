@@ -7,6 +7,41 @@ window.addEventListener(`DOMContentLoaded`, () => {
         // Prevent default click highlights or text selections during active dragging
         box.style.userSelect = 'none';
 
+        // 1. Listen for standard keyboard focus or direct slider clicks
+        box.addEventListener('focusin', () => {
+            box.classList.add('active-interaction');
+        });
+
+        box.addEventListener('focusout', () => {
+            box.classList.remove('active-interaction');
+        });
+
+        // 2. Listen for mouse dragging states (handles your expanded hit-target dragging click rules)
+        box.addEventListener('mousedown', () => {
+            box.classList.add('active-interaction');
+            
+            // Remove class only when the user lets go of the mouse anywhere on screen
+            const removeActiveDrag = () => {
+                // Keep active if the keyboard focus is still inside the element
+                if (document.activeElement !== slider) {
+                    box.classList.remove('active-interaction');
+                }
+                window.removeEventListener('mouseup', removeActiveDrag);
+            };
+            window.addEventListener('mouseup', removeActiveDrag);
+        });
+
+        // 3. Mirror gestures for mobile layouts
+        box.addEventListener('touchstart', () => {
+            box.classList.add('active-interaction');
+            
+            const removeActiveTouch = () => {
+                box.classList.remove('active-interaction');
+                window.removeEventListener('touchend', removeActiveTouch);
+            };
+            window.addEventListener('touchend', removeActiveTouch);
+        }, { passive: true });
+
         function handleInputScaling(e) {
             // Find the bounding box dimensions of the interactive slider bar
             const rect = slider.getBoundingClientRect();
