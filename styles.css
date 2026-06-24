@@ -89,3 +89,19 @@ h1 {
     transform: translate(-50%, -50%);
     transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1), top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
+
+/* Result Box Styles */
+#result-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Hide Utility Class
+.hidden-box {
+    display: none;
+} */ */

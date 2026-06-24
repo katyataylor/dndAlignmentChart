@@ -23,6 +23,8 @@ window.addEventListener(`DOMContentLoaded`, () => {
     
     // Hide the dot again if they switch quiz modes so they have to re-submit
     playerDot.style.display = "none";
+    // Hide description container when switching quiz modes
+    document.getElementById("result-container").style.display = "none";
   }
 
   radioA.addEventListener("change", toggle);
